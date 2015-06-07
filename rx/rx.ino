@@ -1,11 +1,11 @@
 #include <SPI.h>
 #include <RH_NRF24.h>
-#include <Servo.h> 
+//#include <Servo.h> 
 RH_NRF24 nrf24;
-Servo throttle;
-Servo roll;
-Servo pitch;
-Servo yaw;
+int throttle_pin = 3;
+int roll_pin = 5;
+int pitch_pin = 6;
+int yaw_pin = 9;
 
 String safeVal = "00323232";
 String payload;
@@ -22,23 +22,25 @@ void setup(){
   if (!nrf24.setRF(RH_NRF24::DataRate2Mbps, RH_NRF24::TransmitPower0dBm))
     Serial.println("setRF failed");
   Serial.println("all passed");
-  throttle.attach(3);
-  roll.attach(5);
-  pitch.attach(6);
-  yaw.attach(9);
+  pinMode(throttle_pin, OUTPUT);
+  pinMode(roll_pin, OUTPUT);
+  pinMode(pitch_pin, OUTPUT);
+  pinMode(yaw_pin, OUTPUT);
 }
+
+
 
 unsigned long hex2int(char *a, unsigned int len)
 {
-   int i;
-   unsigned long val = 0;
+  int i;
+  unsigned long val = 0;
 
-   for(i=0;i<len;i++)
-      if(a[i] <= 57)
-       val += (a[i]-48)*(1<<(4*(len-1-i)));
-      else
-       val += (a[i]-55)*(1<<(4*(len-1-i)));
-   return val;
+  for(i=0;i<len;i++)
+    if(a[i] <= 57)
+      val += (a[i]-48)*(1<<(4*(len-1-i)));
+    else
+      val += (a[i]-55)*(1<<(4*(len-1-i)));
+  return val;
 }
 
 void ParseAndWrite(char payload[]){
@@ -58,24 +60,40 @@ void ParseAndWrite(char payload[]){
   mem[1] = payload[7];
   ptr = mem;
   unsigned long yaw = hex2int(ptr,2);
-  Serial.println("tadasd");
-  Serial.println("throttle,roll,pitch,yaw " + String((throttle+100)*10,DEC) + String((roll+100)*10,DEC) + String((pitch+100)*10,DEC) + String((yaw+100)*10,DEC));
+  float throttle_val = (throttle * 255 )/100;
+  float roll_val = (roll * 255 )/100;
+  float pitch_val = (pitch * 255 )/100;
+  float yaw_val = (yaw * 255 )/100;
+  Serial.println(int(throttle_val));
+  Serial.print(" ");
+  Serial.print(int(roll_val));
+  Serial.print(" ");
+  Serial.print(int(pitch_val));
+  Serial.print(" ");
+  Serial.print(int(yaw_val));
+  //Serial.println("throttle,roll,pitch,yaw %i %i %i %i ", int(throttle_val) ,int(roll_val) , int(pitch_val) , int(yaw_val));
 }
 
 void loop(){
-uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
-uint8_t len = sizeof(buf);
-if (nrf24.recv(buf, &len)){
-Serial.println("got payload: ");
+  uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
+  uint8_t len = sizeof(buf);
+  if (nrf24.recv(buf, &len)){
+    Serial.println("got payload: ");
 
-char buffer[];
-buffer = (char*)buf;
-ParseAndWrite(buf);
-}else{
-  payload = safeVal;
-  char buffer[10];
-  payload.toCharArray(buffer,10);
-  ParseAndWrite(buffer);
-}
+    char buffer[len];
+   for (int i = 0; i < len; i++){
+     buffer[i] = (char)buf[i];
+   }
+    //buffer = (char)buf;
+    ParseAndWrite(buffer);
+  }
+  else{
+   
+  }
+   payload = safeVal;
+    char buffer[11];
+    payload.toCharArray(buffer,11);
+    ParseAndWrite(buffer);
   delay(400);
 }
+
