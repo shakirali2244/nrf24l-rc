@@ -64,22 +64,20 @@ void ParseAndWrite(char payload[]){
   float roll_val = (roll * 255 )/100;
   float pitch_val = (pitch * 255 )/100;
   float yaw_val = (yaw * 255 )/100;
-  Serial.println(int(throttle_val));
+  Serial.print(int(throttle_val));
   Serial.print(" ");
   Serial.print(int(roll_val));
   Serial.print(" ");
   Serial.print(int(pitch_val));
   Serial.print(" ");
-  Serial.print(int(yaw_val));
+  Serial.println(int(yaw_val));
   //Serial.println("throttle,roll,pitch,yaw %i %i %i %i ", int(throttle_val) ,int(roll_val) , int(pitch_val) , int(yaw_val));
 }
-
-void loop(){
   uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
   uint8_t len = sizeof(buf);
+void loop(){
   if (nrf24.recv(buf, &len)){
-    Serial.println("got payload: ");
-
+    //Serial.println((char*)buf);
     char buffer[len];
    for (int i = 0; i < len; i++){
      buffer[i] = (char)buf[i];
@@ -87,13 +85,11 @@ void loop(){
     //buffer = (char)buf;
     ParseAndWrite(buffer);
   }
-  else{
-   
-  }
-   payload = safeVal;
+  while(!nrf24.waitAvailableTimeout(30)){
+    payload = safeVal;
     char buffer[11];
     payload.toCharArray(buffer,11);
     ParseAndWrite(buffer);
-  delay(400);
+  }
 }
 

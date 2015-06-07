@@ -38,7 +38,7 @@ void loop(){
     send(content);
     delay(100);
   }else{
-    send(safeVal);
+    send(content);
   }
 }
 
