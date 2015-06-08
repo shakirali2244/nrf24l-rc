@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 socket = require('./lib/pwm');
+serial = require('./lib/serial')
 
 app.get('/', function(req, res){
 res.sendfile('/home/pi/nrf24l-rc/avian-firm/lazybot.html');

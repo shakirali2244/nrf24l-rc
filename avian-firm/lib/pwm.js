@@ -3,17 +3,25 @@ pwmYaw = 50;
 pwmPitch = 50;
 pwmRoll = 50;
 
+SerialPort = require("serialport").SerialPort
+	serialPort = new SerialPort("/dev/ttyUSB0", {
+  	baudrate: 9600
+	});
+
 exports.start = function start(client){
+	
 	console.log('a user connected');
 	client.on('throttle',function(data){
 
 		if (data == 'up' && pwmThrottle <100){
 			pwmThrottle+=1;
 			console.log(pwmThrottle);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 		if (data == 'down' && pwmThrottle >0){
 			pwmThrottle-=1;
 			console.log(pwmThrottle);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 		client.emit('valueThrottle',pwmThrottle);
 		});
@@ -36,10 +44,12 @@ exports.start = function start(client){
 		if (data == 'up' && pwmPitch<100){
 			pwmPitch+=1;
 			console.log(pwmPitch);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 		if (data == 'down' && pwmPitch >0){
 			pwmPitch-=1;
 			console.log(pwmPitch);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 	client.emit('valuePitch',pwmPitch);
 	});
@@ -49,10 +59,12 @@ exports.start = function start(client){
 		if (data == 'up' && pwmRoll<100){
 			pwmRoll+=1;
 			console.log(pwmRoll);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 		if (data == 'down' && pwmRoll >0){
 			pwmRoll-=1;
 			console.log(pwmRoll);
+			serialPort.write(String(pwmThrottle)+String(pwmRoll)+String(pwmPitch));
 		}
 	client.emit('valueRoll',pwmRoll);
 	});
