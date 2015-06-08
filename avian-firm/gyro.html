@@ -1,0 +1,16 @@
+<html>
+<link href="css/badger.css" rel='stylesheet' type='text/css' />
+<body>
+<button onclick="gyro()">booyah!</button>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+var socket = io();
+
+function gyro() {
+window.ondevicemotion = function(event) {
+  ax = event.accelerationIncludingGravity.x;
+  socket.emit('oriax',ax);
+}
+}
+</script>

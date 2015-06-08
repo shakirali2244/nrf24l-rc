@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="row">
+  <div class="col-md-1"><button id="thu" class="btn btn-success" onclick="sendit()"><i class="icon-white icon-arrow-up"></i>throttle++</button></div>  
+  <div class="col-md-1"><button id="thd" class="btn btn-success" onclick="sendito()"><i class="icon-white icon-arrow-up"></i>throttle--</button></div>
+  <div class="col-md-1"> <h1 id="valueThrottle"></h6></div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-1"><button class="btn btn-success" onclick="sendity()"><i class="icon-white icon-arrow-up"></i>yaw++</button></div>  
+  <div class="col-md-1"><button class="btn btn-success" onclick="senditoy()"><i class="icon-white icon-arrow-up"></i>yaw--</button></div>
+  <div class="col-md-1"> <h1 id="valueYaw"></h6></div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-1"><button class="btn btn-success" onclick="senditp()"><i class="icon-white icon-arrow-up"></i>pitch++</button></div>  
+  <div class="col-md-1"><button class="btn btn-success" onclick="senditop()"><i class="icon-white icon-arrow-up"></i>pitch--</button></div>
+  <div class="col-md-1"> <h1 id="valuePitch"></h6></div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-md-1"><button class="btn btn-success" onclick="senditr()"><i class="icon-white icon-arrow-up"></i>roll+</button></div>  
+  <div class="col-md-1"><button class="btn btn-success" onclick="senditor()"><i class="icon-white icon-arrow-up"></i>roll--</button></div>
+  <div class="col-md-1"> <h1 id="valueRoll"></h6></div>
+
+</div>
+
+
+<a href="gyro.html">gyro</a> 
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+var socket = io();
+
+window.onkeydown = function(event) {
+   if (event.keyCode == 38) {
+     sendit();
+   }
+   if (event.keyCode == 40) {
+     sendito();
+   }
+   if (event.keyCode == 87) {
+     senditp();
+   }
+   if (event.keyCode == 83) {
+     senditop();
+   }
+   if (event.keyCode == 68) {
+     senditr();
+   }
+   if (event.keyCode == 65) {
+     senditor();
+   }
+   if (event.keyCode == 69) {
+     sendity();
+   }
+   if (event.keyCode == 81) {
+     senditoy();
+   }
+}
+function sendit(){
+socket.emit('throttle','up');
+}
+
+
+function sendito(){
+socket.emit('throttle','down');
+}
+
+
+function sendity(){
+socket.emit('yaw','up');
+}
+
+function senditoy(){
+socket.emit('yaw','down');
+}
+
+function senditp(){
+socket.emit('pitch','up');
+}
+
+function senditop(){
+socket.emit('pitch','down');
+}
+
+function senditr(){
+socket.emit('roll','up');
+}
+
+function senditor(){
+socket.emit('roll','down');
+}
+
+
+
+socket.on('valueThrottle',function(data){
+var display_this=data;
+document.getElementById("valueThrottle").innerHTML = display_this;
+});
+
+socket.on('valueYaw',function(data){
+var display_this=data;
+document.getElementById("valueYaw").innerHTML = display_this;
+});
+
+socket.on('valuePitch',function(data){
+var display_this=data;
+document.getElementById("valuePitch").innerHTML = display_this;
+});
+
+socket.on('valueRoll',function(data){
+var display_this=data;
+document.getElementById("valueRoll").innerHTML = display_this;
+});
+
+
+</script> 
+</body>
+</html>
+
+
