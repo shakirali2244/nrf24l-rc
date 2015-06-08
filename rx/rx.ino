@@ -1,14 +1,12 @@
 #include <SPI.h>
 #include <RH_NRF24.h>
-//#include <Servo.h> 
+#include <Servo.h> 
 RH_NRF24 nrf24;
-int throttle_pin = 3;
-int roll_pin = 5;
-int pitch_pin = 6;
-int yaw_pin = 9;
+Servo throttle_pin;
 
 String safeVal = "00323232";
 String payload;
+int pos = 150;
 char mem[2];
 char *ptr;
 
@@ -22,10 +20,8 @@ void setup(){
   if (!nrf24.setRF(RH_NRF24::DataRate2Mbps, RH_NRF24::TransmitPower0dBm))
     Serial.println("setRF failed");
   Serial.println("all passed");
-  pinMode(throttle_pin, OUTPUT);
-  pinMode(roll_pin, OUTPUT);
-  pinMode(pitch_pin, OUTPUT);
-  pinMode(yaw_pin, OUTPUT);
+  throttle_pin.attach(3);
+  throttle_pin.write(30);
 }
 
 
@@ -64,18 +60,25 @@ void ParseAndWrite(char payload[]){
   float roll_val = (roll * 255 )/100;
   float pitch_val = (pitch * 255 )/100;
   float yaw_val = (yaw * 255 )/100;
-  Serial.print(int(throttle_val));
-  Serial.print(" ");
-  Serial.print(int(roll_val));
-  Serial.print(" ");
-  Serial.print(int(pitch_val));
-  Serial.print(" ");
-  Serial.println(int(yaw_val));
+  int pos = int(throttle_val);
+  pos = map(pos, 0, 255, 1000, 2000);
+  delay(15);
+  throttle_pin.writeMicroseconds(pos);  
+  //Serial.print(int(throttle_val));
+  //Serial.print(" ");
+  //Serial.print(int(roll_val));
+  //Serial.print(" ");
+  //Serial.print(int(pitch_val));
+  //Serial.print(" ");
+  //Serial.println(int(yaw_val));
+  Serial.println(int(throttle_val));
+  //analogWrite(roll_pin,int(throttle_val));
   //Serial.println("throttle,roll,pitch,yaw %i %i %i %i ", int(throttle_val) ,int(roll_val) , int(pitch_val) , int(yaw_val));
 }
+  
+void loop(){
   uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
   uint8_t len = sizeof(buf);
-void loop(){
   if (nrf24.recv(buf, &len)){
     //Serial.println((char*)buf);
     char buffer[len];
