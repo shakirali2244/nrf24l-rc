@@ -1,5 +1,5 @@
 # nrf24l-rc
-repo for arduino code using radiohead lib to simulate 4ch radio signal on one frequency
+repo for arduino code and webserver code using radiohead lib and nodejs to simulate 4ch radio signal on one frequency and web control of the drone/drones
 
 TODO 
 - fix single digits data encoding
