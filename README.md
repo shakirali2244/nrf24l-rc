@@ -3,5 +3,8 @@ repo for arduino code and webserver code using radiohead lib and nodejs to simul
 
 TODO 
 - fix single digits data encoding
-- add a log back of flight data to server 
-- parse and display
+- change encoding to ascii
+- add more channels 
+- add a log back of flight data to base 
+- setter and getter for alt and gps
+- parse and display on gui
