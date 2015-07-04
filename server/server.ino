@@ -14,10 +14,8 @@ void setup(){
     Serial.println("setRF failed");
   Serial.println("all passed");
 }
-
-String content = "00323232";
-String safeVal = "00323232";
 char character;
+String content;
 
 void send(String payload){
   uint8_t data[RH_NRF24_MAX_MESSAGE_LEN];
@@ -27,7 +25,10 @@ void send(String payload){
   Serial.println("Sent payload :"+payload);
 }
 
+
 void loop(){
+   uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
+   uint8_t len = sizeof(buf);
   if(Serial.available()){
     content = "\0";
     while(Serial.available()) {
@@ -38,7 +39,9 @@ void loop(){
     send(content);
     delay(100);
   }else{
-    send(content);
+    if(nrf24.recv(buf, &len)){
+      Serial.println((char*) buf);
+    }
   }
 }
 
