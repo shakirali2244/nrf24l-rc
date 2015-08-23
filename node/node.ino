@@ -4,7 +4,7 @@ RH_NRF24 nrf24;
 
 String payload;
 String mem;
-int relay = 13;
+int relay = 6;
 
 //char *ptr;
 

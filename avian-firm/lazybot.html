@@ -6,13 +6,13 @@
 <body>
 
 <div class="row">
-  <div class="col-md-1"><button id="thu" class="btn btn-success" onclick="sendit()"><i class="icon-white icon-arrow-up"></i>throttle++</button></div>  
-  <div class="col-md-1"><button id="thd" class="btn btn-success" onclick="sendito()"><i class="icon-white icon-arrow-up"></i>throttle--</button></div>
+  <div class="col-md-1"><button id="thu" class="btn btn-success" onclick="sendit()"><i class="icon-white icon-arrow-up"></i>On</button></div>  
+  <div class="col-md-1"><button id="thd" class="btn btn-success" onclick="sendito()"><i class="icon-white icon-arrow-up"></i>Off</button></div>
   <div class="col-md-1"> <h1 id="valueThrottle"></h6></div>
 
 </div>
 
-<div class="row">
+<!--<div class="row">
   <div class="col-md-1"><button class="btn btn-success" onclick="sendity()"><i class="icon-white icon-arrow-up"></i>yaw++</button></div>  
   <div class="col-md-1"><button class="btn btn-success" onclick="senditoy()"><i class="icon-white icon-arrow-up"></i>yaw--</button></div>
   <div class="col-md-1"> <h1 id="valueYaw"></h6></div>
@@ -36,7 +36,7 @@
 
 
 <a href="gyro.html">gyro</a> 
-
+-->
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
@@ -49,6 +49,7 @@ window.onkeydown = function(event) {
    if (event.keyCode == 40) {
      sendito();
    }
+   /*
    if (event.keyCode == 87) {
      senditp();
    }
@@ -67,6 +68,7 @@ window.onkeydown = function(event) {
    if (event.keyCode == 81) {
      senditoy();
    }
+   */
 }
 function sendit(){
 socket.emit('throttle','up');
@@ -77,7 +79,7 @@ function sendito(){
 socket.emit('throttle','down');
 }
 
-
+/*
 function sendity(){
 socket.emit('yaw','up');
 }
@@ -101,14 +103,14 @@ socket.emit('roll','up');
 function senditor(){
 socket.emit('roll','down');
 }
-
+*/
 
 
 socket.on('valueThrottle',function(data){
 var display_this=data;
 document.getElementById("valueThrottle").innerHTML = display_this;
 });
-
+/*
 socket.on('valueYaw',function(data){
 var display_this=data;
 document.getElementById("valueYaw").innerHTML = display_this;
@@ -123,7 +125,7 @@ socket.on('valueRoll',function(data){
 var display_this=data;
 document.getElementById("valueRoll").innerHTML = display_this;
 });
-
+*/
 
 </script> 
 </body>

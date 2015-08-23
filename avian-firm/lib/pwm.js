@@ -10,19 +10,19 @@ exports.start = function start(client){
 	console.log('a user connected');
 	client.on('throttle',function(data){
 
-		if (data == 'up' && pwmThrottle <99){
+		if (data == 'up' && pwmThrottle <1){
 			pwmThrottle+=1;
 			console.log(pwmThrottle);
-			ser.serialPort.write(preparePayload(pwmThrottle,pwmRoll,pwmPitch,pwmYaw));
+			ser.serialPort.write("1");
 		}
 		if (data == 'down' && pwmThrottle >0){
 			pwmThrottle-=1;
 			console.log(pwmThrottle);
-			ser.serialPort.write(preparePayload(pwmThrottle,pwmRoll,pwmPitch,pwmYaw));
+			ser.serialPort.write("0");
 		}
 		client.emit('valueThrottle',pwmThrottle);
 		});
-
+	/*
 	client.on('yaw',function(data){
 		if (data == 'up' && pwmYaw<99){
 			pwmYaw+=1;
@@ -63,6 +63,7 @@ exports.start = function start(client){
 			ser.serialPort.write(preparePayload(pwmThrottle,pwmRoll,pwmPitch,pwmYaw));
 		}
 	client.emit('valueRoll',pwmRoll);
+
 	});
 	
 	client.on('oriax',function(data){
@@ -71,6 +72,7 @@ exports.start = function start(client){
 		//board.servoWrite(throttle, ax);
 		console.log(ax);
 	});
+
 
 	function preparePayload(th,rl,pt,yw){ //optimize this SHIT
 		if(th <10){
@@ -98,4 +100,5 @@ exports.start = function start(client){
 		return payload
 
 	}
+	*/
 }

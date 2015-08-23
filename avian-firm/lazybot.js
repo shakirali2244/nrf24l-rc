@@ -7,15 +7,15 @@ socket = require('./lib/pwm');
 
 
 app.get('/', function(req, res){
-res.sendfile('/home/pi/nrf24l-rc/avian-firm/lazybot.html');
+res.sendfile('/home/shakir/nrf24l-rc/avian-firm/lazybot.html');
 });
 
 app.get('/css/badger.css', function(req, res){
-res.sendfile('/home/pi/nrf24l-rc/avian-firm/css/badger.css');
+res.sendfile('/home/shakir/nrf24l-rc/avian-firm/css/badger.css');
 });
 
 app.get('/gyro.html', function(req, res){
-res.sendfile('/home/pi/nrf24l-rc/avian-firm/gyro.html');
+res.sendfile('/home/shakir/nrf24l-rc/avian-firm/gyro.html');
 });
 
 http.listen(3000,function(){
