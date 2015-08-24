@@ -22,7 +22,7 @@ void send(String payload){
   payload.getBytes(data, RH_NRF24_MAX_MESSAGE_LEN) ;
   nrf24.send(data, sizeof(data));
   nrf24.waitPacketSent();
-  Serial.println("Sent payload :"+payload);
+  //Serial.println("Sent payload :"+payload);
 }
 
 
@@ -37,7 +37,7 @@ void loop(){
       delay(10);
     }
     send(content);
-    delay(100);
+    //delay(100);
   }else{
     if(nrf24.recv(buf, &len)){
       Serial.println((char*) buf);

@@ -9,18 +9,20 @@ exports.start = function start(client){
 	
 	console.log('a user connected');
 	client.on('throttle',function(data){
-
-		if (data == 'up' && pwmThrottle <1){
-			pwmThrottle+=1;
-			console.log(pwmThrottle);
-			ser.serialPort.write("1");
-		}
-		if (data == 'down' && pwmThrottle >0){
-			pwmThrottle-=1;
-			console.log(pwmThrottle);
-			ser.serialPort.write("0");
-		}
-		client.emit('valueThrottle',pwmThrottle);
+		ser.serialPort.open(function (error) {
+			  if ( error ) {
+			    console.log('failed to open: '+error);
+			  } else {
+			    console.log('open');
+			    ser.serialPort.on('data', function(data) {
+			      console.log('data received: ' + data);
+			    });
+			    ser.serialPort.write(data, function(err, results) {
+			      console.log('err ' + err);
+			      console.log('results ' + results);
+			    });
+			  }
+			});
 		});
 	/*
 	client.on('yaw',function(data){

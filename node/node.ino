@@ -5,6 +5,7 @@ RH_NRF24 nrf24;
 String payload;
 String mem;
 int relay = 6;
+String pin_value = 0;
 
 //char *ptr;
 
@@ -25,6 +26,7 @@ void setup(){
 void ParseAndWrite(char payload[]){
    mem="\0";
    mem+=payload[0];
+   pin_value = mem;
    digitalWrite(relay,mem.toInt());
    Serial.println("Wrote");
    Serial.println(mem.toInt());
@@ -46,7 +48,13 @@ void loop(){
    for (int i = 0; i < len; i++){
      buffer[i] = (char)buf[i];
    }
-    ParseAndWrite(buffer);
+   Serial.println("compare is");
+   Serial.println(buffer[0] == 33);
+   if (buffer[0] == 33){
+     send(pin_value);
+   }else{
+     ParseAndWrite(buffer);
+   }
   }
 }
 

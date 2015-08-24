@@ -8,7 +8,8 @@
 <div class="row">
   <div class="col-md-1"><button id="thu" class="btn btn-success" onclick="sendit()"><i class="icon-white icon-arrow-up"></i>On</button></div>  
   <div class="col-md-1"><button id="thd" class="btn btn-success" onclick="sendito()"><i class="icon-white icon-arrow-up"></i>Off</button></div>
-  <div class="col-md-1"> <h1 id="valueThrottle"></h6></div>
+  <div class="col-md-1"><h1> Status: </h1> <h1 id="status"></h6></div>
+
 
 </div>
 
@@ -71,12 +72,12 @@ window.onkeydown = function(event) {
    */
 }
 function sendit(){
-socket.emit('throttle','up');
+socket.emit('throttle',1);
 }
 
 
 function sendito(){
-socket.emit('throttle','down');
+socket.emit('throttle',0);
 }
 
 /*
@@ -106,9 +107,9 @@ socket.emit('roll','down');
 */
 
 
-socket.on('valueThrottle',function(data){
+socket.on('status',function(data){
 var display_this=data;
-document.getElementById("valueThrottle").innerHTML = display_this;
+document.getElementById("status").innerHTML = display_this;
 });
 /*
 socket.on('valueYaw',function(data){
